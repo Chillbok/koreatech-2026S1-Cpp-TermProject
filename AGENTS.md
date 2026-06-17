@@ -69,4 +69,12 @@
 
 ## 네이밍 규칙
 
-- 전역변수: `g_` 접두사 사용 (예: `g_counter`, `g_config`)
+- **클래스 / 구조체 / enum**: `PascalCase` (예: `Account`, `Cloth`, `ColorType`)
+- **함수**: `snake_case` (예: `process_order()`, `get_name()`)
+- **변수 (지역변수, 매개변수)**: `snake_case` (예: `user_name`, `total_count`)
+- **멤버변수**: `snake_case`, 접두사 없음 (예: `name`, `points`)
+  - 멤버변수와 지역변수/매개변수 구분이 필요할 때는 `this->` 사용
+- **전역변수**: `snake_case`, 가능하면 사용 지양 (예: `divider`)
+  - 전역변수가 꼭 필요한 경우 `inline` 또는 `extern`으로 관리
+- **상수**: `snake_case` (예: `max_size`)
+- **매크로**: `ALL_CAPS` + `snake_case` (예: `DEBUG_MODE`)
