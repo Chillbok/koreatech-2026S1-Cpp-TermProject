@@ -17,6 +17,10 @@ public:
 	
 	// 함수
 	void set_user_information();
+	
+	// getter 함수
+	std::string get_id();
+	std::string get_password();
 };
 
 #endif
