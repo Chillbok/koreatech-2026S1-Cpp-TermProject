@@ -5,9 +5,10 @@
 #define CONSOLE_UTIL_H
 
 #include <string>
-// 전역변수들
-std::string g_divider = "============================";
 
 void Opening();
+
+// 구분선을 반환하는 함수
+std::string get_divider();
 
 #endif
