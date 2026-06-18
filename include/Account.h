@@ -15,9 +15,6 @@ public:
 	Account();
 	Account(std::string _id, std::string _password);
 	
-	// 함수
-	void set_user_information();
-	
 	// getter 함수
 	std::string get_id();
 };

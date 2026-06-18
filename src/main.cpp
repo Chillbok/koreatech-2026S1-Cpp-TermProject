@@ -6,12 +6,19 @@ using std::cout;
 using std::endl;
 
 #include "../include/ConsoleUtil.h"
-#include "../include/Account.h"
+#include "../include/AccountManager.h"
 
 int main() {
 	ConsoleUtil::Opening();
-	Account a;
-	a.set_user_information();
-	Account b("junho2", "password");
+	cout << ConsoleUtil::get_divider() << endl;
+	
+	AccountManager acc_manager;
+	acc_manager.add_account_on_list();
+	acc_manager.add_account_on_list();
+	acc_manager.add_account_on_list();
+
+	system("clear");
+	cout << "저장된 계정 정보 출력" << endl;
+	acc_manager.show_existing_accounts();
 	return 0;
 }
