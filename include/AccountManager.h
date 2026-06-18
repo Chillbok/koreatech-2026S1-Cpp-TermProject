@@ -22,7 +22,8 @@ public:
 	Account create_user_information();
 	
 	// 계정 조회 관련 함수들
-	bool find_id_exists(std::string id_to_find);
+	bool define_id_exists(std::string id_to_find);
+	Account* get_account_by_id(std::string id_to_find);
 	void show_existing_accounts();
 };
 

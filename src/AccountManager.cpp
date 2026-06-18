@@ -17,7 +17,7 @@ void AccountManager::add_account_on_list() {
 
 void AccountManager::remove_account_on_list(string user_id_for_delete) {
 	cout << endl;
-	if (find_id_exists(user_id_for_delete) == false) {
+	if (define_id_exists(user_id_for_delete) == false) {
 		cerr << "[Error] 일치하는 아이디 찾을 수 없음. 삭제 불가능." << endl;
 		return;
 	}
@@ -40,7 +40,7 @@ Account AccountManager::create_user_information() {
 		cin >> input;
 
 		// 유저 리스트에서 같은 아이디 발견
-		if (find_id_exists(input) == true) {
+		if (define_id_exists(input) == true) {
 			cerr << "[Error] 중복된 아이디입니다. 다른 아이디를 입력하세요." << endl;
 			continue;
 		}
@@ -69,7 +69,7 @@ Account AccountManager::create_user_information() {
 	return Account(temp_id, temp_password);
 }
 
-bool AccountManager::find_id_exists(string id_to_find) {
+bool AccountManager::define_id_exists(string id_to_find) {
 	for (Account& existing_account : account_list) {
 		if (id_to_find == existing_account.get_id()) return true;
 	}
@@ -85,4 +85,13 @@ void AccountManager::show_existing_accounts() {
 		cout << i << "\t| " << account.get_id() << endl;
 		++i;
 	}
+}
+
+Account* AccountManager::get_account_by_id(string id_to_find) {
+	for (auto& account : account_list) {
+		if (account.get_id() == id_to_find) {
+			return &account;
+		}
+	}
+	return nullptr;
 }
