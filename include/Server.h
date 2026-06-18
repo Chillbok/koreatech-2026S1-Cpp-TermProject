@@ -12,9 +12,16 @@ main()에서는 Server 객체 하나만 생성하여 모든 작업을 처리한�
 */
 #ifndef SERVER_H
 #define SERVER_H
+#include "Account.h"
+#include "AccountManager.h"
 
 class Server {
-
+private:
+	Account* logged_in_account;
+	AccountManager account_manager;
+public:
+	Server();
+	void login();
 };
 
 #endif

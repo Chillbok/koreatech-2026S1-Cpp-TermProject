@@ -7,11 +7,18 @@ using std::endl;
 
 #include "../include/ConsoleUtil.h"
 #include "../include/AccountManager.h"
+#include "../include/Server.h"
 
 int main() {
 	ConsoleUtil::Opening();
 	cout << ConsoleUtil::get_divider() << endl;
 	
+	// 새로운 코드
+	Server main_server;
+	main_server.login();
+
+	// 기존 코드는 혹시 모르니 유지
+	/*
 	AccountManager acc_manager;
 	acc_manager.add_account_on_list();
 	acc_manager.add_account_on_list();
@@ -21,5 +28,6 @@ int main() {
 	system("clear");
 	cout << "저장된 계정 정보 출력" << endl;
 	acc_manager.show_existing_accounts();
+	*/
 	return 0;
 }
