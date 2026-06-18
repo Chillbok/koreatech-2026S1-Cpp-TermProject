@@ -13,9 +13,16 @@ class AccountManager {
 private:
 	std::vector<Account> account_list;
 public:
+	// 생성자
 	AccountManager();
+
+	// 계정 생성 관련 함수들
 	void add_account_on_list();
 	void remove_account_on_list(std::string user_id_for_delete);
+	Account create_user_information();
+	
+	// 계정 조회 관련 함수들
+	bool find_id_exists(std::string id_to_find);
 };
 
 #endif
