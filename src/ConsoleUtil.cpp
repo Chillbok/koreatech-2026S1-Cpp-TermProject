@@ -5,10 +5,10 @@ using std::cout;
 using std::endl;
 using std::string;
 
-void Opening() {
+void ConsoleUtil::Opening() {
 	cout << "이준호의 쇼핑몰" << endl;
 }
 
-string get_divider() {
+string ConsoleUtil::get_divider() {
 	return "===================================";
 }

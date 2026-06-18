@@ -6,9 +6,13 @@
 
 #include <string>
 
+namespace ConsoleUtil {
+
 void Opening();
 
 // 구분선을 반환하는 함수
 std::string get_divider();
+
+}
 
 #endif
