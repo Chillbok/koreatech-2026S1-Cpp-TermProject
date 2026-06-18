@@ -20,8 +20,17 @@ private:
 	Account* logged_in_account;
 	AccountManager account_manager;
 public:
+	// 생성자
+
 	Server();
+	
+	// 기타 함수들
+	
 	void login();
+	
+	// getter 함수들
+	
+	AccountManager& get_account_manager();
 };
 
 #endif

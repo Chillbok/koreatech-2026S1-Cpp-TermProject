@@ -58,3 +58,5 @@ void Server::login() {
 		break;
 	}
 }
+
+AccountManager& Server::get_account_manager() { return account_manager; }
