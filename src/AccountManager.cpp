@@ -80,7 +80,9 @@ void AccountManager::show_existing_accounts() {
 	cout << endl;
 	cout << "번호\t| 계정 순서로 나열됨" << endl;
 	cout << ConsoleUtil::get_divider() << endl;
-	for (int i = 0; i < account_list.size(); ++i) {
-		cout << i + 1 << "\t| " << account_list[i].get_id() << endl;
+	int i = 1;
+	for (const auto& account : account_list) {
+		cout << i << "\t| " << account.get_id() << endl;
+		++i;
 	}
 }

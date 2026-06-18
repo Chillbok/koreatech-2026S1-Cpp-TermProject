@@ -6,12 +6,12 @@
 #define ACCOUNT_MANAGER_H
 
 #include "Account.h"
-#include <vector>
+#include <list>
 #include <string>
 
 class AccountManager {
 private:
-	std::vector<Account> account_list;
+	std::list<Account> account_list;
 public:
 	// 생성자
 	AccountManager();
