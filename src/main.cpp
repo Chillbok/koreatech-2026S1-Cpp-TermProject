@@ -16,6 +16,7 @@ int main() {
 	acc_manager.add_account_on_list();
 	acc_manager.add_account_on_list();
 	acc_manager.add_account_on_list();
+	acc_manager.remove_account_on_list("junho");
 
 	system("clear");
 	cout << "저장된 계정 정보 출력" << endl;
