@@ -12,3 +12,7 @@ Account::Account() : id(""), password("") {}
 Account::Account(string _id, string _password) : id(_id), password(_password) {}
 
 string Account::get_id() { return id; }
+
+bool Account::check_password_correct(string input) {
+	return input == this->password;
+}

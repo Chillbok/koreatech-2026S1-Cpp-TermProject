@@ -17,6 +17,9 @@ public:
 	
 	// getter 함수
 	std::string get_id();
+
+	// 비밀번호 확인 함수
+	bool check_password_correct(std::string input);
 };
 
 #endif
