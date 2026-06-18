@@ -40,4 +40,3 @@ void Account::set_user_information() {
 }
 
 string Account::get_id() { return id; }
-string Account::get_password() { return password; }

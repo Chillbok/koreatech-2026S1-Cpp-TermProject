@@ -20,7 +20,6 @@ public:
 	
 	// getter 함수
 	std::string get_id();
-	std::string get_password();
 };
 
 #endif
