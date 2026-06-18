@@ -1,5 +1,6 @@
 #include "../include/AccountManager.h"
 #include "../include/Account.h"
+#include "../include/ConsoleUtil.h"
 #include <iostream>
 using std::cin;
 using std::cout;
@@ -60,4 +61,13 @@ bool AccountManager::find_id_exists(string id_to_find) {
 		if (id_to_find == existing_account.get_id()) return true;
 	}
 	return false;
+}
+
+void AccountManager::show_existing_accounts() {
+	cout << endl;
+	cout << "번호\t| 계정 순서로 나열됨" << endl;
+	cout << ConsoleUtil::get_divider() << endl;
+	for (int i = 0; i < account_list.size(); ++i) {
+		cout << i + 1 << "\t| " << account_list[i].get_id() << endl;
+	}
 }
