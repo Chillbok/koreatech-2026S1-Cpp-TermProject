@@ -14,14 +14,18 @@ private:
 	std::list<Account> account_list;
 public:
 	// 생성자
+
 	AccountManager();
 
 	// 계정 생성 관련 함수들
+
+	// 계정 생성하려면 이 함수를 사용해야함
 	void add_account_on_list();
 	void remove_account_on_list(std::string user_id_for_delete);
 	Account create_user_information();
 	
 	// 계정 조회 관련 함수들
+
 	bool define_id_exists(std::string id_to_find);
 	Account* get_account_by_id(std::string id_to_find);
 	void show_existing_accounts();
