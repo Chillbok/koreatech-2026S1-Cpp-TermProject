@@ -31,7 +31,7 @@ public:
 	// getter 함수들
 	
 	AccountManager& get_account_manager();
-	Account& get_logged_in_account();
+	Account* get_logged_in_account();
 };
 
 #endif
