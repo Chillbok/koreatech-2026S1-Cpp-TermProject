@@ -16,6 +16,19 @@ void AccountManager::add_account_on_list() {
 }
 
 void AccountManager::remove_account_on_list(string user_id_for_delete) {
+	cout << endl;
+	if (find_id_exists(user_id_for_delete) == false) {
+		cerr << "[Error] 일치하는 아이디 찾을 수 없음. 삭제 불가능." << endl;
+		return;
+	}
+	
+	for (auto it = account_list.begin(); it != account_list.end(); ++it) {
+		if (it->get_id() == user_id_for_delete) {
+			account_list.erase(it);
+			cout << "\"" << user_id_for_delete << "\" 계정이 삭제되었습니다." << endl;
+			break;
+		}
+	}
 }
 
 Account AccountManager::create_user_information() {
