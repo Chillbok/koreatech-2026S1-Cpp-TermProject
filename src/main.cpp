@@ -19,7 +19,9 @@ int main() {
 	cout << ConsoleUtil::get_divider() << endl;
 	Server main_server;
 	
+	/*
 	for (int i = 0; i < 3; ++i) main_server.get_account_manager().add_account_on_list();
+	*/
 	main_server.login();
 	cout << "main 함수에 적음: 로그인 성공" << endl;
 	

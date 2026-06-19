@@ -99,3 +99,5 @@ Account* AccountManager::get_account_by_id(string id_to_find) {
 	}
 	return nullptr;
 }
+
+int AccountManager::get_account_list_size() { return account_list.size(); }

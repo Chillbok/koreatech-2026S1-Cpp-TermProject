@@ -14,11 +14,15 @@ Server::Server() : account_manager(), logged_in_account(nullptr) {
 }
 
 void Server::login() {
-	// 계정 개수 확인하고, 계정이 없다면 생성하도록 유도하는 코드가 필요함.
 	cout << endl;
 	cout << "로그인" << endl;
 	cout << ConsoleUtil::get_divider() << endl;
 	string input;
+	// 계정 개수 확인하고, 계정이 없다면 생성하도록 유도하는 코드가 필요함.
+	if (account_manager.get_account_list_size() == 0) {
+		cout << "계정 없음. 계정 생성 단계로 넘어갑니다." << endl;
+		account_manager.add_account_on_list();
+	}
 	
 	// 아이디 입력 단계
 	while(true) {

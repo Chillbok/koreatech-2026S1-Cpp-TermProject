@@ -27,8 +27,12 @@ public:
 	// 계정 조회 관련 함수들
 
 	bool define_id_exists(std::string id_to_find);
-	Account* get_account_by_id(std::string id_to_find);
 	void show_existing_accounts();
+	
+	// 생성자 함수
+	
+	Account* get_account_by_id(std::string id_to_find);
+	int get_account_list_size();
 };
 
 #endif
