@@ -59,5 +59,13 @@ void Server::login() {
 	}
 }
 
+void Server::logout() {
+	cout << endl;
+	cout << "# 로그아웃 절차 시작" << endl;
+	cout << ConsoleUtil::get_divider() << endl;
+	logged_in_account = nullptr;
+	cout << "로그아웃 되었습니다." << endl;
+}
+
 Account* Server::get_logged_in_account() { return logged_in_account; }
 AccountManager& Server::get_account_manager() { return account_manager; }

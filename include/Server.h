@@ -27,6 +27,7 @@ public:
 	// 기타 함수들
 	
 	void login();
+	void logout();
 	
 	// getter 함수들
 	

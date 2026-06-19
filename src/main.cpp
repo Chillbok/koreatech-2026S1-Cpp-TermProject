@@ -25,6 +25,7 @@ int main() {
 	cout << endl;
 	cout << ConsoleUtil::get_divider() << endl;
 	cout << "로그인한 계정 아이디: " << main_server.get_logged_in_account()->get_id() << endl;
+	main_server.logout();
 	
 	cout << "현재 계정 목록 보여줌" << endl;
 	main_server.get_account_manager().show_existing_accounts();
