@@ -1,0 +1,103 @@
+#include "../include/AccountManager.h"
+#include "../include/Account.h"
+#include "../include/ConsoleUtil.h"
+#include <iostream>
+using std::cin;
+using std::cout;
+using std::cerr;
+using std::endl;
+#include <string>
+using std::string;
+
+AccountManager::AccountManager() : account_list() {}
+
+void AccountManager::add_account_on_list() {
+	cout << endl;
+	cout << "# 계정 생성 시작" << endl;
+	cout << ConsoleUtil::get_divider() << endl;
+	account_list.push_back(create_user_information());
+	cout << "계정 \'" << account_list.back().get_id() << "\' 생성 완료" << endl;
+}
+
+void AccountManager::remove_account_on_list(string user_id_for_delete) {
+	cout << endl;
+	if (define_id_exists(user_id_for_delete) == false) {
+		cerr << "[Error] 일치하는 아이디 찾을 수 없음. 삭제 불가능." << endl;
+		return;
+	}
+	
+	for (auto it = account_list.begin(); it != account_list.end(); ++it) {
+		if (it->get_id() == user_id_for_delete) {
+			account_list.erase(it);
+			cout << "\"" << user_id_for_delete << "\" 계정이 삭제되었습니다." << endl;
+			break;
+		}
+	}
+}
+
+Account AccountManager::create_user_information() {
+	string input, temp_id, temp_password;
+
+	// 아이디 설정 단계
+	while(true) {
+		cout << "생성할 아이디 입력: ";
+		cin >> input;
+
+		// 유저 리스트에서 같은 아이디 발견
+		if (define_id_exists(input) == true) {
+			cerr << "[Error] 중복된 아이디입니다. 다른 아이디를 입력하세요." << endl;
+			continue;
+		}
+		
+		temp_id = input;
+		cout << "아이디 설정 완료: " << temp_id << endl;
+		break;
+	}
+	
+	// 비밀번호 설정 단계
+	while(true) {
+		cout << "생성할 비밀번호 입력: ";
+		cin >> temp_password;
+		cout << "비밀번호 다시 입력: ";
+		cin >> input;
+		
+		// 다시 입력한 비밀번호가 틀렸으면
+		if (input != temp_password) {
+			cerr << "[Error] 비밀번호가 일치하지 않습니다. 다시 입력하세요." << endl;
+			continue;
+		}
+		cout << "비밀번호 설정 완료" << endl;
+		break;
+	}
+
+	return Account(temp_id, temp_password);
+}
+
+bool AccountManager::define_id_exists(string id_to_find) {
+	for (Account& existing_account : account_list) {
+		if (id_to_find == existing_account.get_id()) return true;
+	}
+	return false;
+}
+
+void AccountManager::show_existing_accounts() {
+	cout << endl;
+	cout << "번호\t| 계정 순서로 나열됨" << endl;
+	cout << ConsoleUtil::get_divider() << endl;
+	int i = 1;
+	for (const auto& account : account_list) {
+		cout << i << "\t| " << account.get_id() << endl;
+		++i;
+	}
+}
+
+Account* AccountManager::get_account_by_id(string id_to_find) {
+	for (auto& account : account_list) {
+		if (account.get_id() == id_to_find) {
+			return &account;
+		}
+	}
+	return nullptr;
+}
+
+int AccountManager::get_account_list_size() { return account_list.size(); }

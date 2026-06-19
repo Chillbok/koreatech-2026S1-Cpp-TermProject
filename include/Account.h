@@ -15,8 +15,11 @@ public:
 	Account();
 	Account(std::string _id, std::string _password);
 	
-	// 함수
-	void set_user_information();
+	// getter 함수
+	std::string get_id() const;
+
+	// 비밀번호 확인 함수
+	bool check_password_correct(std::string input) const;
 };
 
 #endif
