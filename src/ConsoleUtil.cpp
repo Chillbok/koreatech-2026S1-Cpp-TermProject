@@ -38,6 +38,13 @@ bool ConsoleUtil::get_player_confirm(string question_message) {
 	}
 }
 
+void ConsoleUtil::press_enter() {
+	cout << "[Enter]를 눌러 계속하기";
+	cin.ignore(10000, '\n');
+	string input;
+	std::getline(std::cin, input);
+}
+
 string ConsoleUtil::get_divider() {
 	return "===================================";
 }
