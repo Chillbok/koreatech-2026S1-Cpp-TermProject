@@ -12,7 +12,11 @@ using std::string;
 AccountManager::AccountManager() : account_list() {}
 
 void AccountManager::add_account_on_list() {
+	cout << endl;
+	cout << "# 계정 생성 시작" << endl;
+	cout << ConsoleUtil::get_divider() << endl;
 	account_list.push_back(create_user_information());
+	cout << "계정 \'" << account_list.back().get_id() << "\' 생성 완료" << endl;
 }
 
 void AccountManager::remove_account_on_list(string user_id_for_delete) {
