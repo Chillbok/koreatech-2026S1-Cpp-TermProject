@@ -61,6 +61,12 @@ void Server::login() {
 
 void Server::logout() {
 	cout << endl;
+	
+	if (logged_in_account == nullptr) {
+		cerr << "[Error] 로그인된 계정 없음. 로그아웃 불가능." << endl;
+		return;
+	}
+
 	cout << "# 로그아웃 절차 시작" << endl;
 	cout << ConsoleUtil::get_divider() << endl;
 	logged_in_account = nullptr;
