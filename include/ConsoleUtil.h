@@ -10,6 +10,7 @@ namespace ConsoleUtil {
 
 void opening();
 void clear_screen();
+bool get_player_confirm(std::string question_message);
 
 // 구분선을 반환하는 함수
 std::string get_divider();

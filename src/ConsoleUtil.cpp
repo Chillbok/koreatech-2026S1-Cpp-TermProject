@@ -1,11 +1,15 @@
 #include "../include/ConsoleUtil.h"
 
 #include <iostream>
+using std::cin;
 using std::cout;
+using std::cerr;
 using std::endl;
 using std::string;
 #include <cstdlib>
 using std::system;
+#include <string>
+using std::string;
 
 void ConsoleUtil::opening() {
 	cout << "이준호의 쇼핑몰" << endl;
@@ -17,6 +21,21 @@ void ConsoleUtil::clear_screen() {
 	#else
 		system("clear");
 	#endif
+}
+
+bool ConsoleUtil::get_player_confirm(string question_message) {
+	while(true) {
+		cout << question_message << "(y/n): ";
+		string input;
+		cin >> input;
+
+		if (input == "y" || input == "Y") return true;
+		else if (input == "n" || input == "N") return false;
+		else {
+			cerr << "[Error] 잘못된 글자를 작성하셨습니다. (y 또는 n)만 눌러주세요." << endl;
+			continue;
+		}
+	}
 }
 
 string ConsoleUtil::get_divider() {
