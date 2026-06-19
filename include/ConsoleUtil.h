@@ -8,7 +8,8 @@
 
 namespace ConsoleUtil {
 
-void Opening();
+void opening();
+void clear_screen();
 
 // 구분선을 반환하는 함수
 std::string get_divider();
