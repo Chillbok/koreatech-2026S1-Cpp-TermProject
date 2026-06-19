@@ -10,7 +10,7 @@ using std::endl;
 #include "../include/Server.h"
 
 int main() {
-	ConsoleUtil::Opening();
+	ConsoleUtil::opening();
 	cout << ConsoleUtil::get_divider() << endl;
 	
 	// 새로운 코드
@@ -19,13 +19,22 @@ int main() {
 	cout << ConsoleUtil::get_divider() << endl;
 	Server main_server;
 	
-	/*
-	for (int i = 0; i < 3; ++i) main_server.get_account_manager().add_account_on_list();
-	*/
-	main_server.login();
+	for (int i = 0; i < 2; ++i) {
+		cout << i+1 << "번째 계정 생성" << endl;
+		main_server.get_account_manager().add_account_on_list();
+		ConsoleUtil::clear_screen();
+	}
 	
-	main_server.show_logged_in_id();
-	main_server.logout();
+	bool start_login = ConsoleUtil::get_player_confirm("로그인할까요?");
+	if (start_login = true) {
+		main_server.login();
+		ConsoleUtil::clear_screen();
+	
+		main_server.show_logged_in_id();
+		bool logout = ConsoleUtil::get_player_confirm("로그아웃할까요?");
+		if (logout == true) main_server.logout();
+		ConsoleUtil::clear_screen();
+	}
 	
 	cout << "현재 계정 목록 보여줌" << endl;
 	main_server.get_account_manager().show_existing_accounts();
