@@ -9,7 +9,7 @@ using std::endl;
 #include <string>
 using std::string;
 
-Server::Server() : account_manager(), logged_in_account(nullptr), logged_in(false) {
+Server::Server() : account_manager(), logged_in_account(nullptr) {
 	cout << "서버 생성 및 변수 초기화 완료" << endl;
 }
 
@@ -31,6 +31,7 @@ void Server::login() {
 
 		if (input == "q") {
 			cout << "로그인을 취소합니다." << endl;
+			logged_in_account = nullptr;
 			return;
 		}
 
@@ -59,7 +60,6 @@ void Server::login() {
 		}
 		
 		cout << "로그인 성공!" << endl;
-		logged_in = true;
 		break;
 	}
 }
@@ -67,7 +67,7 @@ void Server::login() {
 void Server::logout() {
 	cout << endl;
 	
-	if (logged_in == false) {
+	if (logged_in_account == nullptr) {
 		cerr << "[Error] 로그인된 계정 없음. 로그아웃 불가능." << endl;
 		return;
 	}
@@ -75,12 +75,11 @@ void Server::logout() {
 	cout << "# 로그아웃 절차 시작" << endl;
 	cout << ConsoleUtil::get_divider() << endl;
 	logged_in_account = nullptr;
-	logged_in = false;
 	cout << "로그아웃 되었습니다." << endl;
 }
 
 void Server::show_logged_in_id() {
-	if (logged_in == false) {
+	if (logged_in_account == nullptr) {
 		cerr << "[Error] 로그인된 계정 없음." << endl;
 		return;
 	}
@@ -91,7 +90,7 @@ Account* Server::get_logged_in_account() {
 	cout << endl;
 	cout << "# 로그인된 계정 확인하기" << endl;
 	cout << ConsoleUtil::get_divider() << endl;
-	if (logged_in == false) {
+	if (logged_in_account == nullptr) {
 		cerr << "[Error] 로그인된 계정 없음." << endl;
 		return nullptr;
 	}

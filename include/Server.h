@@ -17,9 +17,9 @@ main()에서는 Server 객체 하나만 생성하여 모든 작업을 처리한�
 
 class Server {
 private:
+	// 로그인한 계정. 로그인하지 않은 상태인 경우, 반드시 nullptr가 할당된 상태여야 함.
 	Account* logged_in_account;
 	AccountManager account_manager;
-	bool logged_in;
 public:
 	// 생성자
 
