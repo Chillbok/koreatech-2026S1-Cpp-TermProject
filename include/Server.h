@@ -19,6 +19,7 @@ class Server {
 private:
 	Account* logged_in_account;
 	AccountManager account_manager;
+	bool logged_in;
 public:
 	// 생성자
 
@@ -28,6 +29,7 @@ public:
 	
 	void login();
 	void logout();
+	void show_logged_in_id();
 	
 	// getter 함수들
 	

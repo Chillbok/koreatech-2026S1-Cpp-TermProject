@@ -23,11 +23,8 @@ int main() {
 	for (int i = 0; i < 3; ++i) main_server.get_account_manager().add_account_on_list();
 	*/
 	main_server.login();
-	cout << "main 함수에 적음: 로그인 성공" << endl;
 	
-	cout << endl;
-	cout << ConsoleUtil::get_divider() << endl;
-	cout << "로그인한 계정 아이디: " << main_server.get_logged_in_account()->get_id() << endl;
+	main_server.show_logged_in_id();
 	main_server.logout();
 	
 	cout << "현재 계정 목록 보여줌" << endl;
