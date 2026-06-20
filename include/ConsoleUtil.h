@@ -8,7 +8,6 @@
 
 namespace ConsoleUtil {
 
-void opening();
 void clear_screen();
 bool get_player_confirm(std::string question_message);
 void press_enter();
