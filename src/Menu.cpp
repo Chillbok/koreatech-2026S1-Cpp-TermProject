@@ -78,7 +78,6 @@ void Menu::start_menu(Server& s) {
 
 void Menu::ask_login(Server& s) {
 	using namespace ConsoleUtil;
-	string input;
 	int account_list_size = s.get_account_manager().get_account_list_size();
 	// 계정이 없다면
 	if (account_list_size < 1) {
