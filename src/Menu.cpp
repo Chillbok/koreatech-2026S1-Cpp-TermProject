@@ -45,7 +45,7 @@ void Menu::start_menu(Server& s) {
 		cout << "\t5. 옷 검색" << endl;
 		cout << "\t0. 종료" << endl;
 
-		int action_number;
+		int action_number{};
 		cin >> action_number;
 
 		switch (action_number) {
@@ -67,6 +67,8 @@ void Menu::start_menu(Server& s) {
 			case 0:
 				return;
 			default:
+				cin.clear();
+				cin.ignore(10000, '\n');
 				cerr << "[Error] 잘못된 입력입니다." << endl;
 				press_enter();
 				break;
