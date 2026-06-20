@@ -11,7 +11,7 @@ using std::endl;
 #include "../include/Server.h"
 
 int main() {
-	Menu::Opening();
+	Menu::opening();
 	Server main_server = Menu::setup_server();
 	
 	Menu::ask_login(main_server);

@@ -11,7 +11,7 @@
 #include "Server.h"
 
 namespace Menu {
-	void Opening();
+	void opening();
 	Server setup_server();
 	void ask_login(Server& s);
 	void ask_logout(Server& s);
