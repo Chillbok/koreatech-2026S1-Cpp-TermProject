@@ -26,13 +26,14 @@ int main() {
 	}
 	
 	bool start_login = ConsoleUtil::get_player_confirm("로그인할까요?");
-	if (start_login = true) {
+	if (start_login == true) {
 		main_server.login();
 		ConsoleUtil::clear_screen();
 	
 		main_server.show_logged_in_id();
 		bool logout = ConsoleUtil::get_player_confirm("로그아웃할까요?");
 		if (logout == true) main_server.logout();
+		else cout << "로그인 상태 유지됨" << endl;
 		ConsoleUtil::clear_screen();
 	}
 	
