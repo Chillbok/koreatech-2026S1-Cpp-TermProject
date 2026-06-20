@@ -46,6 +46,8 @@ Account AccountManager::create_user_information() {
 		// 유저 리스트에서 같은 아이디 발견
 		if (define_id_exists(input) == true) {
 			cerr << "[Error] 중복된 아이디입니다. 다른 아이디를 입력하세요." << endl;
+			ConsoleUtil::press_enter();
+			ConsoleUtil::clear_screen();
 			continue;
 		}
 		

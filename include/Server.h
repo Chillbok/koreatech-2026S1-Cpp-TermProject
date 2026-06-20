@@ -27,14 +27,15 @@ public:
 	
 	// 기타 함수들
 	
+	void signup();
 	void login();
 	void logout();
 	void show_logged_in_id();
 	
 	// getter 함수들
 	
-	AccountManager& get_account_manager();
 	Account* get_logged_in_account();
+	AccountManager& get_account_manager();
 };
 
 #endif

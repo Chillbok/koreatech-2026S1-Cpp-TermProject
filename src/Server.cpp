@@ -13,17 +13,16 @@ Server::Server() : account_manager(), logged_in_account(nullptr) {
 	cout << "서버 생성 및 변수 초기화 완료" << endl;
 }
 
+void Server::signup() {
+	account_manager.add_account_on_list();
+}
+
 void Server::login() {
 	cout << endl;
 	cout << "로그인" << endl;
 	cout << ConsoleUtil::get_divider() << endl;
 	string input;
-	// 계정 개수 확인하고, 계정이 없다면 생성하도록 유도하는 코드가 필요함.
-	if (account_manager.get_account_list_size() == 0) {
-		cout << "계정 없음. 계정 생성 단계로 넘어갑니다." << endl;
-		account_manager.add_account_on_list();
-	}
-	
+
 	// 아이디 입력 단계
 	while(true) {
 		cout << "아이디(종료하려면 'q' 입력): ";
@@ -87,13 +86,7 @@ void Server::show_logged_in_id() {
 }
 
 Account* Server::get_logged_in_account() { 
-	cout << endl;
-	cout << "# 로그인된 계정 확인하기" << endl;
-	cout << ConsoleUtil::get_divider() << endl;
-	if (logged_in_account == nullptr) {
-		cerr << "[Error] 로그인된 계정 없음." << endl;
-		return nullptr;
-	}
+	if (logged_in_account == nullptr) return nullptr;
 	return logged_in_account;
 }
 AccountManager& Server::get_account_manager() { return account_manager; }
