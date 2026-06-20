@@ -13,6 +13,10 @@ Server::Server() : account_manager(), logged_in_account(nullptr) {
 	cout << "서버 생성 및 변수 초기화 완료" << endl;
 }
 
+void Server::signup() {
+	account_manager.add_account_on_list();
+}
+
 void Server::login() {
 	cout << endl;
 	cout << "로그인" << endl;
