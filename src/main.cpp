@@ -12,30 +12,10 @@ using std::endl;
 
 int main() {
 	Menu::Opening();
+	Server main_server = Menu::setup_server();
 	
-	// 새로운 코드
-	cout << endl;
-	cout << "# 서버 생성 절차 시작" << endl;
-	cout << ConsoleUtil::get_divider() << endl;
-	Server main_server;
-	
-	for (int i = 0; i < 2; ++i) {
-		cout << i+1 << "번째 계정 생성" << endl;
-		main_server.get_account_manager().add_account_on_list();
-		ConsoleUtil::clear_screen();
-	}
-	
-	bool start_login = ConsoleUtil::get_player_confirm("로그인할까요?");
-	if (start_login == true) {
-		main_server.login();
-		ConsoleUtil::clear_screen();
-	
-		main_server.show_logged_in_id();
-		bool logout = ConsoleUtil::get_player_confirm("로그아웃할까요?");
-		if (logout == true) main_server.logout();
-		else cout << "로그인 상태 유지됨" << endl;
-		ConsoleUtil::clear_screen();
-	}
+	Menu::ask_login(main_server);
+	Menu::ask_logout(main_server);
 	
 	cout << "현재 계정 목록 보여줌" << endl;
 	main_server.get_account_manager().show_existing_accounts();
