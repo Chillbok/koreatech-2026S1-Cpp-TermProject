@@ -11,10 +11,6 @@ using std::system;
 #include <string>
 using std::string;
 
-void ConsoleUtil::opening() {
-	cout << "이준호의 쇼핑몰" << endl;
-}
-
 void ConsoleUtil::clear_screen() {
 	#ifdef _WIN32
 		system("cls");

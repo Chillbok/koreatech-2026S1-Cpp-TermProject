@@ -6,12 +6,12 @@ using std::cout;
 using std::endl;
 
 #include "../include/ConsoleUtil.h"
+#include "../include/Menu.h"
 #include "../include/AccountManager.h"
 #include "../include/Server.h"
 
 int main() {
-	ConsoleUtil::opening();
-	cout << ConsoleUtil::get_divider() << endl;
+	Menu::Opening();
 	
 	// 새로운 코드
 	cout << endl;
