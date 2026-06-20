@@ -33,6 +33,47 @@ Server Menu::setup_server() {
 	return server;
 }
 
+void Menu::start_menu(Server& s) {
+	using namespace ConsoleUtil;
+	while (true) {
+		clear_screen();
+		cout << "해당하는 번호를 눌러 행동을 선택하세요." << endl;
+		cout << "\t1. 로그인" << endl;
+		cout << "\t2. 계정 생성" << endl;
+		cout << "\t3. 로그아웃" << endl;
+		cout << "\t4. 계정 목록 조회" << endl;
+		cout << "\t5. 옷 검색" << endl;
+		cout << "\t0. 종료" << endl;
+
+		int action_number;
+		cin >> action_number;
+
+		switch (action_number) {
+			case 1:
+				ask_login(s);
+				break;
+			case 2:
+				s.get_account_manager().add_account_on_list();
+				break;
+			case 3:
+				ask_logout(s);
+				break;
+			case 4:
+				s.get_account_manager().show_existing_accounts();
+				press_enter();
+				break;
+			case 5:
+				break;
+			case 0:
+				return;
+			default:
+				cerr << "[Error] 잘못된 입력입니다." << endl;
+				press_enter();
+				break;
+		}
+	}
+}
+
 void Menu::ask_login(Server& s) {
 	using namespace ConsoleUtil;
 	string input;

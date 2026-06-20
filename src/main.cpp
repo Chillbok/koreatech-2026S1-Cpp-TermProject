@@ -13,11 +13,7 @@ using std::endl;
 int main() {
 	Menu::opening();
 	Server main_server = Menu::setup_server();
+	Menu::start_menu(main_server);
 	
-	Menu::ask_login(main_server);
-	Menu::ask_logout(main_server);
-	
-	cout << "현재 계정 목록 보여줌" << endl;
-	main_server.get_account_manager().show_existing_accounts();
 	return 0;
 }
