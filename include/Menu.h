@@ -8,7 +8,11 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "Server.h"
+
 namespace Menu {
 	void Opening();
+	Server setup_server();
+	void ask_login(Server& s);
 }
 #endif
