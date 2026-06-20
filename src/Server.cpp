@@ -87,13 +87,7 @@ void Server::show_logged_in_id() {
 }
 
 Account* Server::get_logged_in_account() { 
-	cout << endl;
-	cout << "# 로그인된 계정 확인하기" << endl;
-	cout << ConsoleUtil::get_divider() << endl;
-	if (logged_in_account == nullptr) {
-		cerr << "[Error] 로그인된 계정 없음." << endl;
-		return nullptr;
-	}
+	if (logged_in_account == nullptr) return nullptr;
 	return logged_in_account;
 }
 AccountManager& Server::get_account_manager() { return account_manager; }
