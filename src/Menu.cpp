@@ -53,7 +53,7 @@ void Menu::start_menu(Server& s) {
 				ask_login(s);
 				break;
 			case 2:
-				s.get_account_manager().add_account_on_list();
+				s.signup();
 				break;
 			case 3:
 				ask_logout(s);
