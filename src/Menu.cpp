@@ -60,3 +60,16 @@ void Menu::ask_login(Server& s) {
 	press_enter();
 	clear_screen();
 }
+
+void Menu::ask_logout(Server& s) {
+	if(s.get_logged_in_account() == nullptr) {
+		cout << "로그아웃 할 필요가 없습니다." << endl;
+	}
+	else {
+		bool user_confirm = ConsoleUtil::get_player_confirm("로그아웃 하시겠습니까?");
+		if (user_confirm == true) s.logout();
+		else cout << "로그아웃 완료." << endl;
+	}
+	ConsoleUtil::press_enter();
+	ConsoleUtil::clear_screen();
+}

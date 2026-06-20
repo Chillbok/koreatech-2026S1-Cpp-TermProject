@@ -14,5 +14,6 @@ namespace Menu {
 	void Opening();
 	Server setup_server();
 	void ask_login(Server& s);
+	void ask_logout(Server& s);
 }
 #endif
