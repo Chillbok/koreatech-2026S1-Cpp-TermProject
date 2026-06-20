@@ -8,8 +8,6 @@ using std::endl;
 using std::string;
 #include <cstdlib>
 using std::system;
-#include <string>
-using std::string;
 
 void ConsoleUtil::clear_screen() {
 	#ifdef _WIN32

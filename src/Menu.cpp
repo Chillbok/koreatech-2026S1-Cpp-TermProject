@@ -46,7 +46,12 @@ void Menu::start_menu(Server& s) {
 		cout << "\t0. 종료" << endl;
 
 		int action_number{};
-		cin >> action_number;
+		if (!(cin >> action_number)) {
+			cin.clear();
+			cerr << "[Error] 잘못된 입력입니다. (숫자만 입력 가능)" << endl;
+			press_enter();
+			continue;
+		}
 
 		switch (action_number) {
 			case 1:
@@ -67,8 +72,6 @@ void Menu::start_menu(Server& s) {
 			case 0:
 				return;
 			default:
-				cin.clear();
-				cin.ignore(10000, '\n');
 				cerr << "[Error] 잘못된 입력입니다." << endl;
 				press_enter();
 				break;
@@ -118,7 +121,7 @@ void Menu::ask_logout(Server& s) {
 	else {
 		bool user_confirm = ConsoleUtil::get_player_confirm("로그아웃 하시겠습니까?");
 		if (user_confirm == true) s.logout();
-		else cout << "로그아웃 완료." << endl;
+		else cout << "로그아웃을 취소했습니다." << endl;
 	}
 	ConsoleUtil::press_enter();
 	ConsoleUtil::clear_screen();
