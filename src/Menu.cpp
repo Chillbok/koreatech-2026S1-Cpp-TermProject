@@ -85,7 +85,12 @@ void Menu::ask_login(Server& s) {
 			cout << "계정 생성을 시작합니다." << endl;
 			s.get_account_manager().add_account_on_list();
 		}
-		else cout << "취소를 선택하셨습니다. 비회원 상태를 유지합니다. 비회원의 구매는 저장되지 않습니다." << endl;
+		else {
+			cout << "취소를 선택하셨습니다. 비회원 상태를 유지합니다. 비회원의 구매는 저장되지 않습니다." << endl;
+			press_enter();
+			clear_screen();
+			return;
+		}
 	}
 
 	press_enter();
