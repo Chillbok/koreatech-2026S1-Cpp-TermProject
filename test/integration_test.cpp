@@ -58,7 +58,7 @@ int main() {
         Cloth c1(stock[0].name, stock[0].color, stock[0].category, stock[0].price);
         acc->add_cloth(c1);
         acc->add_purchase_amount(49000);
-        acc->set_points(acc->get_total_purchase_amount() / 50000 * 1000);
+        acc->recalculate_points();
         assert(acc->get_points() == 0);
         cout << "  Nike Dri-Fit Shirt 구매 (49,000원) → 누적 49,000원, 포인트: " 
              << acc->get_points() << "원" << endl;
@@ -67,7 +67,7 @@ int main() {
         Cloth c2(stock[1].name, stock[1].color, stock[1].category, stock[1].price);
         acc->add_cloth(c2);
         acc->add_purchase_amount(35000);
-        acc->set_points(acc->get_total_purchase_amount() / 50000 * 1000);
+        acc->recalculate_points();
         assert(acc->get_points() == 1000);
         cout << "  Adidas Shorts 구매 (35,000원) → 누적 84,000원, 포인트: " 
              << acc->get_points() << "원" << endl;
@@ -76,7 +76,7 @@ int main() {
         Cloth c3(stock[2].name, stock[2].color, stock[2].category, stock[2].price);
         acc->add_cloth(c3);
         acc->add_purchase_amount(89000);
-        acc->set_points(acc->get_total_purchase_amount() / 50000 * 1000);
+        acc->recalculate_points();
         assert(acc->get_points() == 3000);
         cout << "  NB Shoes 구매 (89,000원) → 누적 173,000원, 포인트: " 
              << acc->get_points() << "원" << endl;
@@ -85,7 +85,7 @@ int main() {
         Cloth c4(stock[4].name, stock[4].color, stock[4].category, stock[4].price);
         acc->add_cloth(c4);
         acc->add_purchase_amount(75000);
-        acc->set_points(acc->get_total_purchase_amount() / 50000 * 1000);
+        acc->recalculate_points();
         assert(acc->get_points() == 4000);
         cout << "  Under Armour Hoodie 구매 (75,000원) → 누적 248,000원, 포인트: " 
              << acc->get_points() << "원" << endl;
@@ -125,8 +125,7 @@ int main() {
         int price1 = history[0].get_price();
         acc->remove_cloth(serial1);
         acc->subtract_purchase_amount(price1);
-        int new_points = (acc->get_total_purchase_amount() / 50000) * 1000;
-        acc->set_points(new_points);
+        acc->recalculate_points();
         assert(acc->get_points() == 3000);
         cout << "  Nike Dri-Fit Shirt 환불 (49,000원) → 누적 " 
              << acc->get_total_purchase_amount() << "원, 포인트: " << acc->get_points() << "원" << endl;
@@ -138,8 +137,7 @@ int main() {
         int price_last = history2.back().get_price();
         acc->remove_cloth(serial_last);
         acc->subtract_purchase_amount(price_last);
-        new_points = (acc->get_total_purchase_amount() / 50000) * 1000;
-        acc->set_points(new_points);
+        acc->recalculate_points();
         assert(acc->get_points() == 2000);
         cout << "  Under Armour Hoodie 환불 (75,000원) → 누적 " 
              << acc->get_total_purchase_amount() << "원, 포인트: " << acc->get_points() << "원" << endl;
@@ -172,23 +170,64 @@ int main() {
         Cloth c1(stock[0].name, stock[0].color, stock[0].category, stock[0].price);
         acc->add_cloth(c1);
         acc->add_purchase_amount(49000);
-        acc->set_points(acc->get_total_purchase_amount() / 50000 * 1000);
+        acc->recalculate_points();
         assert(acc->get_points() == 0);
         cout << "  bob 로그인 후 Nike Shirt 구매 → 포인트: " << acc->get_points() << "원" << endl;
 
         Cloth c2(stock[4].name, stock[4].color, stock[4].category, stock[4].price);
         acc->add_cloth(c2);
         acc->add_purchase_amount(75000);
-        acc->set_points(acc->get_total_purchase_amount() / 50000 * 1000);
+        acc->recalculate_points();
         assert(acc->get_points() == 2000);
         cout << "  UA Hoodie 추가 구매 → 누적 124,000원, 포인트: " << acc->get_points() << "원" << endl;
     }
     cout << endl;
 
     // ============================================================
-    // 8. 재고 목록 조회 테스트
+    // 8. 포인트 사용(할인) 테스트
     // ============================================================
-    cout << "[8] 재고 목록 조회 테스트" << endl;
+    cout << "[8] 포인트 사용(할인) 테스트" << endl;
+    {
+        server.login_by_id("alice");
+        Account* acc = server.get_logged_in_account();
+        int before_points = acc->get_points();
+        int before_total = acc->get_total_purchase_amount();
+        cout << "  alice 보유 포인트: " << before_points << "원, 누적 구매: " << before_total << "원" << endl;
+
+        const auto& stock = server.get_stock_list();
+        // Puma Cap 25,000원 구매, 포인트 1,000원 사용
+        Cloth c1(stock[3].name, stock[3].color, stock[3].category, stock[3].price);
+        int final_price = 25000 - 1000;
+        c1.set_paid_price(final_price);
+        c1.set_points_used(1000);
+        acc->add_cloth(c1);
+        acc->add_purchase_amount(final_price);
+        acc->use_points(1000);
+        acc->recalculate_points();
+        // 누적: 124000 + 24000 = 148000, earned = 148000/50000*1000 = 2000
+        // used_points = 1000, points = 2000 - 1000 = 1000
+        assert(acc->get_points() == 1000);
+        cout << "  Puma Cap 구매 (25,000원 → 포인트 1,000원 할인 → 24,000원 결제)" << endl;
+        cout << "  누적 구매: " << acc->get_total_purchase_amount() 
+             << "원, 포인트: " << acc->get_points() << "원" << endl;
+
+        // 구매한 Cap 즉시 환불 → 포인트 복구 확인
+        string cap_serial = c1.get_serial();
+        acc->remove_cloth(cap_serial);
+        acc->subtract_purchase_amount(24000);
+        acc->restore_points(1000);
+        acc->recalculate_points();
+        // 누적: 124000, used_points = 0, earned = 124000/50000*1000 = 2000
+        assert(acc->get_points() == 2000);
+        cout << "  Puma Cap 환불 → 누적 " << acc->get_total_purchase_amount() 
+             << "원, 포인트 복구: " << acc->get_points() << "원" << endl;
+    }
+    cout << endl;
+
+    // ============================================================
+    // 9. 재고 목록 조회 테스트
+    // ============================================================
+    cout << "[9] 재고 목록 조회 테스트" << endl;
     {
         const auto& stock = server.get_stock_list();
         for (size_t i = 0; i < stock.size(); ++i) {
@@ -200,18 +239,18 @@ int main() {
     cout << endl;
 
     // ============================================================
-    // 9. 계정 목록 조회 테스트
+    // 10. 계정 목록 조회 테스트
     // ============================================================
-    cout << "[9] 계정 목록 조회 테스트" << endl;
+    cout << "[10] 계정 목록 조회 테스트" << endl;
     {
         server.get_account_manager().show_existing_accounts();
     }
     cout << endl;
 
     // ============================================================
-    // 10. 비회원 구매 테스트
+    // 11. 비회원 구매 테스트
     // ============================================================
-    cout << "[10] 비회원 구매 테스트 (포인트/이력 없음 확인)" << endl;
+    cout << "[11] 비회원 구매 테스트 (포인트/이력 없음 확인)" << endl;
     {
         server.logout();
         assert(server.get_logged_in_account() == nullptr);
@@ -226,7 +265,7 @@ int main() {
     cout << endl;
 
     // ============================================================
-    // 11. 최종 상태 출력
+    // 12. 최종 상태 출력
     // ============================================================
     cout << ConsoleUtil::get_divider() << endl;
     cout << "[최종 상태 요약]" << endl;
