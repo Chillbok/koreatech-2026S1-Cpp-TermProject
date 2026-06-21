@@ -14,6 +14,8 @@ namespace Menu {
 	void opening();
 	Server setup_server();
 	void start_menu(Server& s);
+	void show_member_menu(Server& s);
+	void show_guest_menu(Server& s);
 	void ask_login(Server& s);
 	void ask_logout(Server& s);
 }

@@ -1,6 +1,8 @@
 #include "../include/Menu.h"
 #include "../include/ConsoleUtil.h"
+#include <cstdlib>
 #include <iostream>
+#include <limits>
 using std::cin;
 using std::cerr;
 using std::cout;
@@ -34,48 +36,153 @@ Server Menu::setup_server() {
 }
 
 void Menu::start_menu(Server& s) {
-	using namespace ConsoleUtil;
 	while (true) {
-		clear_screen();
-		cout << "해당하는 번호를 눌러 행동을 선택하세요." << endl;
-		cout << "\t1. 로그인" << endl;
-		cout << "\t2. 계정 생성" << endl;
-		cout << "\t3. 로그아웃" << endl;
-		cout << "\t4. 계정 목록 조회" << endl;
-		cout << "\t5. 옷 검색" << endl;
-		cout << "\t0. 종료" << endl;
+		if (s.get_logged_in_account() != nullptr) {
+			show_member_menu(s);
+		} else {
+			show_guest_menu(s);
+		}
+	}
+}
 
-		int action_number{};
-		if (!(cin >> action_number)) {
-			cin.clear();
-			cerr << "[Error] 잘못된 입력입니다. (숫자만 입력 가능)" << endl;
+void Menu::show_member_menu(Server& s) {
+	using namespace ConsoleUtil;
+	clear_screen();
+
+	s.show_logged_in_id();
+	cout << get_divider() << endl;
+	cout << "해당하는 번호를 눌러 행동을 선택하세요." << endl;
+	cout << "\t1. 옷 구매" << endl;
+	cout << "\t2. 옷 환불" << endl;
+	cout << "\t3. 구매이력 조회" << endl;
+	cout << "\t4. 옷 검색" << endl;
+	cout << "\t5. 로그아웃" << endl;
+	cout << "\t6. 계정 목록 조회" << endl;
+	cout << "\t0. 종료" << endl;
+
+	int action_number{};
+	if (!(cin >> action_number)) {
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cerr << "[Error] 잘못된 입력입니다. (숫자만 입력 가능)" << endl;
+		press_enter();
+		return;
+	}
+
+	switch (action_number) {
+		case 1:
+			s.purchase();
 			press_enter();
-			continue;
+			break;
+		case 2:
+			s.refund();
+			press_enter();
+			break;
+		case 3: {
+			Account* acc = s.get_logged_in_account();
+			const auto& history = acc->get_purchase_history();
+			clear_screen();
+			cout << "[구매이력] " << acc->get_id() << " 님" << endl;
+			cout << get_divider() << endl;
+			if (history.empty()) {
+				cout << "구매한 옷이 없습니다." << endl;
+			} else {
+				for (size_t i = 0; i < history.size(); ++i) {
+					cout << "  " << (i + 1) << ". " << history[i].get_name()
+						 << " (" << history[i].get_color() << ", "
+						 << history[i].get_category() << ") "
+						 << history[i].get_price() << "원"
+						 << " | serial: " << history[i].get_serial() << endl;
+				}
+			}
+			cout << "총 구매 금액: " << acc->get_total_purchase_amount() << "원" << endl;
+			cout << "적립 포인트: " << acc->get_points() << "원" << endl;
+			press_enter();
+			break;
 		}
+		case 4: {
+			clear_screen();
+			cout << "[재고 목록]" << endl;
+			cout << get_divider() << endl;
+			const auto& stock = s.get_stock_list();
+			for (size_t i = 0; i < stock.size(); ++i) {
+				cout << "  " << (i + 1) << ". " << stock[i].name
+					 << " (" << stock[i].color << ", " << stock[i].category
+					 << ") " << stock[i].price << "원" << endl;
+			}
+			press_enter();
+			break;
+		}
+		case 5:
+			ask_logout(s);
+			break;
+		case 6:
+			s.get_account_manager().show_existing_accounts();
+			press_enter();
+			break;
+		case 0:
+			exit(0);
+			break;
+		default:
+			cerr << "[Error] 잘못된 입력입니다." << endl;
+			press_enter();
+			break;
+	}
+}
 
-		switch (action_number) {
-			case 1:
-				ask_login(s);
-				break;
-			case 2:
-				s.signup();
-				break;
-			case 3:
-				ask_logout(s);
-				break;
-			case 4:
-				s.get_account_manager().show_existing_accounts();
-				press_enter();
-				break;
-			case 5:
-				break;
-			case 0:
-				return;
-			default:
-				cerr << "[Error] 잘못된 입력입니다." << endl;
-				press_enter();
-				break;
+void Menu::show_guest_menu(Server& s) {
+	using namespace ConsoleUtil;
+	clear_screen();
+
+	cout << "[비회원 모드] 현재 로그인하지 않은 상태입니다." << endl;
+	cout << get_divider() << endl;
+	cout << "해당하는 번호를 눌러 행동을 선택하세요." << endl;
+	cout << "\t1. 로그인" << endl;
+	cout << "\t2. 계정 생성" << endl;
+	cout << "\t3. 비회원 구매" << endl;
+	cout << "\t4. 옷 검색" << endl;
+	cout << "\t0. 종료" << endl;
+
+	int action_number{};
+	if (!(cin >> action_number)) {
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cerr << "[Error] 잘못된 입력입니다. (숫자만 입력 가능)" << endl;
+		press_enter();
+		return;
+	}
+
+	switch (action_number) {
+		case 1:
+			ask_login(s);
+			break;
+		case 2:
+			s.signup();
+			break;
+		case 3:
+			s.purchase();
+			press_enter();
+			break;
+		case 4: {
+			clear_screen();
+			cout << "[재고 목록]" << endl;
+			cout << get_divider() << endl;
+			const auto& stock = s.get_stock_list();
+			for (size_t i = 0; i < stock.size(); ++i) {
+				cout << "  " << (i + 1) << ". " << stock[i].name
+					 << " (" << stock[i].color << ", " << stock[i].category
+					 << ") " << stock[i].price << "원" << endl;
+			}
+			press_enter();
+			break;
 		}
+		case 0:
+			exit(0);
+			break;
+		default:
+			cerr << "[Error] 잘못된 입력입니다." << endl;
+			press_enter();
+			break;
 	}
 }
 
