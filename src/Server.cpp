@@ -9,6 +9,7 @@ using std::endl;
 #include <string>
 using std::string;
 #include <algorithm>
+#include <limits>
 
 Server::Server() : logged_in_account(nullptr), account_manager(), stock_list() {
 	stock_list.push_back({"Nike Dri-Fit Shirt", "black", "top", 49000});
@@ -105,6 +106,12 @@ void Server::purchase() {
 	cout << "구매할 옷 번호 (0: 취소): ";
 	int sel;
 	cin >> sel;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cout << "잘못된 입력. 구매 취소." << endl;
+		return;
+	}
 	if (sel < 1 || sel > static_cast<int>(stock_list.size())) {
 		cout << "구매 취소." << endl;
 		return;
@@ -122,7 +129,7 @@ void Server::purchase() {
 		logged_in_account->set_points(new_points);
 
 		cout << "구매 완료! (serial: " << purchased.get_serial()
-			 << ", 적립 포인트: " << new_points << "원)" << endl;
+			 << ", 현재 포인트: " << new_points << "원)" << endl;
 	} else {
 		cout << "비회원 구매 완료. (포인트 적립 및 구매 이력 없음)" << endl;
 	}
@@ -155,6 +162,12 @@ void Server::refund() {
 	cout << "환불할 serial 입력 (0: 취소): ";
 	string serial;
 	cin >> serial;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cout << "잘못된 입력. 환불 취소." << endl;
+		return;
+	}
 	if (serial == "0") {
 		cout << "환불 취소." << endl;
 		return;

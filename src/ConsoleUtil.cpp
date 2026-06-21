@@ -35,9 +35,10 @@ bool ConsoleUtil::get_player_confirm(string question_message) {
 
 void ConsoleUtil::press_enter() {
 	cout << "[Enter]를 눌러 계속하기";
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	string input;
-	std::getline(std::cin, input);
+	if (cin.rdbuf()->in_avail() > 0) {
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	cin.get();
 }
 
 string ConsoleUtil::get_divider() {

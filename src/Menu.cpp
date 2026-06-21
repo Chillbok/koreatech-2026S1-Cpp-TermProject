@@ -158,6 +158,7 @@ void Menu::show_guest_menu(Server& s) {
 			break;
 		case 2:
 			s.signup();
+			press_enter();
 			break;
 		case 3:
 			s.purchase();
