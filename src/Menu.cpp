@@ -2,6 +2,7 @@
 #include "../include/ConsoleUtil.h"
 #include <cstdlib>
 #include <iostream>
+#include <limits>
 using std::cin;
 using std::cerr;
 using std::cout;
@@ -62,6 +63,7 @@ void Menu::show_member_menu(Server& s) {
 	int action_number{};
 	if (!(cin >> action_number)) {
 		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		cerr << "[Error] 잘못된 입력입니다. (숫자만 입력 가능)" << endl;
 		press_enter();
 		return;
@@ -144,6 +146,7 @@ void Menu::show_guest_menu(Server& s) {
 	int action_number{};
 	if (!(cin >> action_number)) {
 		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		cerr << "[Error] 잘못된 입력입니다. (숫자만 입력 가능)" << endl;
 		press_enter();
 		return;
