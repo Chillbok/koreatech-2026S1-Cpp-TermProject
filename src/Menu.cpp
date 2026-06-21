@@ -83,8 +83,6 @@ void Menu::show_member_menu(Server& s) {
 		case 3: {
 			Account* acc = s.get_logged_in_account();
 			const auto& history = acc->get_purchase_history();
-			press_enter();
-			clear_screen();
 			cout << "[구매이력] " << acc->get_id() << " 님" << endl;
 			cout << get_divider() << endl;
 			if (history.empty()) {
@@ -104,8 +102,7 @@ void Menu::show_member_menu(Server& s) {
 			break;
 		}
 		case 4: {
-			press_enter();
-			clear_screen();
+			cout << endl;
 			cout << "[재고 목록]" << endl;
 			cout << get_divider() << endl;
 			const auto& stock = s.get_stock_list();
