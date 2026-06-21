@@ -21,6 +21,7 @@ public:
 
 	// 계정 생성하려면 이 함수를 사용해야함
 	void add_account_on_list();
+	void add_account(const Account& account);
 	void remove_account_on_list(std::string user_id_for_delete);
 	Account create_user_information();
 	

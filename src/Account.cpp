@@ -30,6 +30,11 @@ void Account::add_points(int _points) { points += _points; }
 
 void Account::add_purchase_amount(int _amount) { total_purchase_amount += _amount; }
 
+void Account::subtract_purchase_amount(int _amount) {
+	total_purchase_amount -= _amount;
+	if (total_purchase_amount < 0) total_purchase_amount = 0;
+}
+
 void Account::add_cloth(const Cloth& cloth) {
 	purchase_history.push_back(cloth);
 }

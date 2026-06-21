@@ -27,6 +27,7 @@ public:
 	void set_total_purchase_amount(int _amount);
 	void add_points(int _points);
 	void add_purchase_amount(int _amount);
+	void subtract_purchase_amount(int _amount);
 
 	void add_cloth(const Cloth& cloth);
 	bool remove_cloth(const std::string& serial);
