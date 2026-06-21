@@ -1,6 +1,7 @@
 #include "../include/ConsoleUtil.h"
 
 #include <iostream>
+#include <limits>
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -34,7 +35,7 @@ bool ConsoleUtil::get_player_confirm(string question_message) {
 
 void ConsoleUtil::press_enter() {
 	cout << "[Enter]를 눌러 계속하기";
-	cin.ignore(10000, '\n');
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	string input;
 	std::getline(std::cin, input);
 }
