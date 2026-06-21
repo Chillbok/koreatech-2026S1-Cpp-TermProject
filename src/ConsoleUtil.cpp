@@ -34,7 +34,7 @@ bool ConsoleUtil::get_player_confirm(string question_message) {
 }
 
 void ConsoleUtil::press_enter() {
-	cout << endl << "[Enter]를 눌러 계속하기";
+	cout << endl << "[Enter]를 두 번 눌러 진행";
 	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	cin.get();
 }
