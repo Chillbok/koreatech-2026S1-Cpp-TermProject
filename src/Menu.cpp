@@ -73,14 +73,17 @@ void Menu::show_member_menu(Server& s) {
 		case 1:
 			s.purchase();
 			press_enter();
+			clear_screen();
 			break;
 		case 2:
 			s.refund();
 			press_enter();
+			clear_screen();
 			break;
 		case 3: {
 			Account* acc = s.get_logged_in_account();
 			const auto& history = acc->get_purchase_history();
+			press_enter();
 			clear_screen();
 			cout << "[구매이력] " << acc->get_id() << " 님" << endl;
 			cout << get_divider() << endl;
@@ -101,6 +104,7 @@ void Menu::show_member_menu(Server& s) {
 			break;
 		}
 		case 4: {
+			press_enter();
 			clear_screen();
 			cout << "[재고 목록]" << endl;
 			cout << get_divider() << endl;
@@ -119,6 +123,7 @@ void Menu::show_member_menu(Server& s) {
 		case 6:
 			s.get_account_manager().show_existing_accounts();
 			press_enter();
+			clear_screen();
 			break;
 		case 0:
 			exit(0);
@@ -159,12 +164,15 @@ void Menu::show_guest_menu(Server& s) {
 		case 2:
 			s.signup();
 			press_enter();
+			clear_screen();
 			break;
 		case 3:
 			s.purchase();
 			press_enter();
+			clear_screen();
 			break;
 		case 4: {
+			press_enter();
 			clear_screen();
 			cout << "[재고 목록]" << endl;
 			cout << get_divider() << endl;
