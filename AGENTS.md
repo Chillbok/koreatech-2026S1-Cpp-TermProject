@@ -34,11 +34,11 @@
 
 | 종류 | 이름 | 설명 | 구현 상태 |
 |------|------|------|:---------:|
-| 변수 | 계정 리스트 | `std::vector<Account>` | ✅ |
+| 변수 | 계정 리스트 | `std::list<Account>` | ✅ |
 | 기능 | 계정 추가 | `add_account_on_list()` | ✅ |
 | 기능 | 계정 삭제 | `remove_account_on_list(user_id)` | ✅ |
 | 기능 | 계정 생성 (입력) | `create_user_information()` | ✅ |
-| 기능 | 아이디 중복 확인 | `find_id_exists(id)` | ✅ |
+| 기능 | 아이디 중복 확인 | `define_id_exists(id)` | ✅ |
 | 기능 | 계정 목록 출력 | `show_existing_accounts()` | ✅ |
 
 ### 3. Cloth (옷)
@@ -64,7 +64,7 @@
 |------|------|------|:---------:|
 | 변수 | 계정 관리자 | `AccountManager` (회원 목록 관리 위임) | ✅ |
 | 변수 | 재고 목록 | `std::vector<ClothStock>` (실제 재고) | ✅ |
-| 변수 | 옷 유형 리스트 | 옷 카테고리 (enum 또는 리스트) | ✅ |
+
 | 변수 | 현재 로그인된 계정 | `Account* logged_in_account` (포인터, 미로그인 시 `nullptr`) | ✅ |
 | 기능 | 로그인 | id/password 확인 후 `logged_in_account` 설정 | ✅ |
 | 기능 | 로그아웃 | `logged_in_account`를 `nullptr`로 초기화 | ✅ |
@@ -84,14 +84,14 @@
 | 옷 유형 | 상의, 하의 등 카테고리 | ✅ |
 | 옷 가격 | 가격 | ✅ |
 
-### 6. ConsoleUtil (입출력 유틸리티)
+### 6. Menu (메뉴 UI)
 
-> 콘솔 입출력 관련 보조 함수를 모아둔 네임스페이스.
+> 사용자 상호작용 메뉴 및 콘솔 입출력 관련 함수를 모아둔 네임스페이스.
 
 | 종류 | 이름 | 설명 | 구현 상태 |
 |------|------|------|:---------:|
-| 기능 | 오프닝 출력 | `opening()` - 프로그램 시작 메시지 | ✅ |
-| 기능 | 구분선 반환 | `get_divider()` | ✅ |
+| 기능 | 오프닝 출력 | `Menu::opening()` - 프로그램 시작 메시지 | ✅ |
+| 기능 | 구분선 반환 | `ConsoleUtil::get_divider()` | ✅ |
 
 ## 비즈니스 규칙
 
