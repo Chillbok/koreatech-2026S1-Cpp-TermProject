@@ -3,10 +3,10 @@
 #include <algorithm>
 using std::string;
 
-Account::Account() : id(""), password(""), points(0), total_purchase_amount(0) {}
+Account::Account() : id(""), password(""), points(0), total_purchase_amount(0), used_points(0) {}
 
 Account::Account(string _id, string _password)
-	: id(_id), password(_password), points(0), total_purchase_amount(0) {}
+	: id(_id), password(_password), points(0), total_purchase_amount(0), used_points(0) {}
 
 string Account::get_id() const { return id; }
 
@@ -33,6 +33,28 @@ void Account::add_purchase_amount(int _amount) { total_purchase_amount += _amoun
 void Account::subtract_purchase_amount(int _amount) {
 	total_purchase_amount -= _amount;
 	if (total_purchase_amount < 0) total_purchase_amount = 0;
+}
+
+int Account::get_used_points() const { return used_points; }
+
+void Account::use_points(int pts) {
+	if (pts < 0) return;
+	if (pts > get_points()) return;
+	used_points += pts;
+	recalculate_points();
+}
+
+void Account::restore_points(int pts) {
+	if (pts < 0) return;
+	if (pts > used_points) return;
+	used_points -= pts;
+	recalculate_points();
+}
+
+void Account::recalculate_points() {
+	int earned = (total_purchase_amount / 50000) * 1000;
+	points = earned - used_points;
+	if (points < 0) points = 0;
 }
 
 void Account::add_cloth(const Cloth& cloth) {

@@ -9,6 +9,7 @@ using std::endl;
 #include <string>
 using std::string;
 #include <algorithm>
+#include <limits>
 
 Server::Server() : logged_in_account(nullptr), account_manager(), stock_list() {
 	stock_list.push_back({"Nike Dri-Fit Shirt", "black", "top", 49000});
@@ -105,6 +106,12 @@ void Server::purchase() {
 	cout << "구매할 옷 번호 (0: 취소): ";
 	int sel;
 	cin >> sel;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cout << "잘못된 입력. 구매 취소." << endl;
+		return;
+	}
 	if (sel < 1 || sel > static_cast<int>(stock_list.size())) {
 		cout << "구매 취소." << endl;
 		return;
@@ -114,15 +121,63 @@ void Server::purchase() {
 	                stock_list[sel - 1].category, stock_list[sel - 1].price);
 
 	if (logged_in_account != nullptr) {
-		logged_in_account->add_cloth(purchased);
-		logged_in_account->add_purchase_amount(stock_list[sel - 1].price);
+		int original_price = stock_list[sel - 1].price;
+		int final_price = original_price;
+		int available_points = logged_in_account->get_points();
 
-		int total = logged_in_account->get_total_purchase_amount();
-		int new_points = (total / 50000) * 1000;
-		logged_in_account->set_points(new_points);
+		if (available_points > 0) {
+			cout << "보유 포인트: " << available_points << "원" << endl;
+			cout << "포인트를 사용하시겠습니까? (y/n): ";
+			string use;
+			cin >> use;
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				use = "n";
+			}
+
+			if (use == "y" || use == "Y") {
+				while (true) {
+					cout << "사용할 포인트 입력 (최대 " << available_points << "원, 0: 취소): ";
+					int use_pts;
+					cin >> use_pts;
+					if (cin.fail()) {
+						cin.clear();
+						cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						cout << "잘못된 입력입니다." << endl;
+						continue;
+					}
+					if (use_pts == 0) {
+						cout << "포인트 사용을 취소합니다." << endl;
+						break;
+					}
+					if (use_pts < 0 || use_pts > available_points) {
+						cout << "보유 포인트 범위 내에서 입력하세요." << endl;
+						continue;
+					}
+					if (use_pts > original_price) {
+						cout << "구매 금액(" << original_price << "원)을 초과할 수 없습니다." << endl;
+						continue;
+					}
+
+					logged_in_account->use_points(use_pts);
+					final_price = original_price - use_pts;
+					purchased.set_points_used(use_pts);
+					cout << "포인트 " << use_pts << "원 사용. 결제 금액: "
+						 << final_price << "원" << endl;
+					break;
+				}
+			}
+		}
+
+		purchased.set_paid_price(final_price);
+		logged_in_account->add_cloth(purchased);
+		logged_in_account->add_purchase_amount(final_price);
+		logged_in_account->recalculate_points();
 
 		cout << "구매 완료! (serial: " << purchased.get_serial()
-			 << ", 적립 포인트: " << new_points << "원)" << endl;
+			 << ", 결제 금액: " << final_price << "원"
+			 << ", 현재 포인트: " << logged_in_account->get_points() << "원)" << endl;
 	} else {
 		cout << "비회원 구매 완료. (포인트 적립 및 구매 이력 없음)" << endl;
 	}
@@ -155,6 +210,12 @@ void Server::refund() {
 	cout << "환불할 serial 입력 (0: 취소): ";
 	string serial;
 	cin >> serial;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cout << "잘못된 입력. 환불 취소." << endl;
+		return;
+	}
 	if (serial == "0") {
 		cout << "환불 취소." << endl;
 		return;
@@ -168,17 +229,18 @@ void Server::refund() {
 		return;
 	}
 
-	int refund_price = it->get_price();
+	int refund_price = it->get_paid_price();
+	int points_to_restore = it->get_points_used();
 
 	if (logged_in_account->remove_cloth(serial)) {
 		logged_in_account->subtract_purchase_amount(refund_price);
-
-		int total = logged_in_account->get_total_purchase_amount();
-		int new_points = (total / 50000) * 1000;
-		logged_in_account->set_points(new_points);
+		if (points_to_restore > 0) {
+			logged_in_account->restore_points(points_to_restore);
+		}
+		logged_in_account->recalculate_points();
 
 		cout << "환불 완료. (" << refund_price << "원 환불"
-			 << ", 현재 포인트: " << new_points << "원)" << endl;
+			 << ", 현재 포인트: " << logged_in_account->get_points() << "원)" << endl;
 	}
 }
 
