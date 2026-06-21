@@ -41,6 +41,7 @@ public:
 	
 	Account* get_logged_in_account();
 	AccountManager& get_account_manager();
+	const std::vector<ClothStock>& get_stock_list() const;
 };
 
 #endif

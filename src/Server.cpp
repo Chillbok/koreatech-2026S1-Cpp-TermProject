@@ -191,3 +191,4 @@ Account* Server::get_logged_in_account() {
 	return logged_in_account;
 }
 AccountManager& Server::get_account_manager() { return account_manager; }
+const std::vector<ClothStock>& Server::get_stock_list() const { return stock_list; }
