@@ -11,6 +11,10 @@ using std::string;
 
 AccountManager::AccountManager() : account_list() {}
 
+void AccountManager::add_account(const Account& account) {
+	account_list.push_back(account);
+}
+
 void AccountManager::add_account_on_list() {
 	cout << endl;
 	cout << "# 계정 생성 시작" << endl;

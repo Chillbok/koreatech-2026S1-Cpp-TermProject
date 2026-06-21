@@ -8,8 +8,14 @@ using std::cerr;
 using std::endl;
 #include <string>
 using std::string;
+#include <algorithm>
 
-Server::Server() : account_manager(), logged_in_account(nullptr) {
+Server::Server() : logged_in_account(nullptr), account_manager(), stock_list() {
+	stock_list.push_back({"Nike Dri-Fit Shirt", "black", "top", 49000});
+	stock_list.push_back({"Adidas Shorts", "red", "bottom", 35000});
+	stock_list.push_back({"New Balance Shoes", "white", "shoes", 89000});
+	stock_list.push_back({"Puma Cap", "blue", "accessory", 25000});
+	stock_list.push_back({"Under Armour Hoodie", "gray", "top", 75000});
 	cout << "서버 생성 및 변수 초기화 완료" << endl;
 }
 
@@ -83,6 +89,101 @@ void Server::show_logged_in_id() {
 		return;
 	}
 	cout << "현재 로그인된 계정: " << logged_in_account->get_id() << endl;
+}
+
+void Server::purchase() {
+	cout << endl;
+	cout << "# 구매" << endl;
+	cout << ConsoleUtil::get_divider() << endl;
+
+	for (size_t i = 0; i < stock_list.size(); ++i) {
+		cout << "  " << (i + 1) << ". " << stock_list[i].name
+			 << " (" << stock_list[i].color << ", " << stock_list[i].category
+			 << ") " << stock_list[i].price << "원" << endl;
+	}
+
+	cout << "구매할 옷 번호 (0: 취소): ";
+	int sel;
+	cin >> sel;
+	if (sel < 1 || sel > static_cast<int>(stock_list.size())) {
+		cout << "구매 취소." << endl;
+		return;
+	}
+
+	Cloth purchased(stock_list[sel - 1].name, stock_list[sel - 1].color,
+	                stock_list[sel - 1].category, stock_list[sel - 1].price);
+
+	if (logged_in_account != nullptr) {
+		logged_in_account->add_cloth(purchased);
+		logged_in_account->add_purchase_amount(stock_list[sel - 1].price);
+
+		int total = logged_in_account->get_total_purchase_amount();
+		int new_points = (total / 50000) * 1000;
+		logged_in_account->set_points(new_points);
+
+		cout << "구매 완료! (serial: " << purchased.get_serial()
+			 << ", 적립 포인트: " << new_points << "원)" << endl;
+	} else {
+		cout << "비회원 구매 완료. (포인트 적립 및 구매 이력 없음)" << endl;
+	}
+}
+
+void Server::refund() {
+	cout << endl;
+	cout << "# 환불" << endl;
+	cout << ConsoleUtil::get_divider() << endl;
+
+	if (logged_in_account == nullptr) {
+		cerr << "[Error] 로그인된 계정 없음. 환불 불가능." << endl;
+		return;
+	}
+
+	const auto& history = logged_in_account->get_purchase_history();
+	if (history.empty()) {
+		cout << "구매한 옷이 없습니다." << endl;
+		return;
+	}
+
+	cout << "[구매한 옷 목록]" << endl;
+	for (size_t i = 0; i < history.size(); ++i) {
+		cout << "  " << (i + 1) << ". " << history[i].get_name()
+			 << " (" << history[i].get_color() << ", " << history[i].get_category()
+			 << ") " << history[i].get_price() << "원"
+			 << " | serial: " << history[i].get_serial() << endl;
+	}
+
+	cout << "환불할 serial 입력 (0: 취소): ";
+	string serial;
+	cin >> serial;
+	if (serial == "0") {
+		cout << "환불 취소." << endl;
+		return;
+	}
+
+	auto it = std::find_if(history.begin(), history.end(),
+		[&serial](const Cloth& c) { return c.get_serial() == serial; });
+
+	if (it == history.end()) {
+		cout << "해당 serial의 옷을 찾을 수 없습니다." << endl;
+		return;
+	}
+
+	int refund_price = it->get_price();
+
+	if (logged_in_account->remove_cloth(serial)) {
+		logged_in_account->subtract_purchase_amount(refund_price);
+
+		int total = logged_in_account->get_total_purchase_amount();
+		int new_points = (total / 50000) * 1000;
+		logged_in_account->set_points(new_points);
+
+		cout << "환불 완료. (" << refund_price << "원 환불"
+			 << ", 현재 포인트: " << new_points << "원)" << endl;
+	}
+}
+
+void Server::login_by_id(const std::string& id) {
+	logged_in_account = account_manager.get_account_by_id(id);
 }
 
 Account* Server::get_logged_in_account() { 
